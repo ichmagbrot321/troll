@@ -19,6 +19,28 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             font-family: 'Arial Black', Arial, sans-serif;
             overflow: hidden;
+            animation: colorCycle 10s ease-in-out infinite;
+        }
+        
+        @keyframes colorCycle {
+            0% {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
+            20% {
+                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            }
+            40% {
+                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            }
+            60% {
+                background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            }
+            80% {
+                background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            }
+            100% {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
         }
         
         .container {
@@ -28,21 +50,21 @@
         }
         
         h1 {
-            font-size: clamp(3rem, 15vw, 12rem);
+            font-size: clamp(2rem, 8vw, 6rem);
             color: #fff;
             text-shadow: 
                 0 0 20px rgba(255, 255, 0, 0.8),
                 0 0 40px rgba(255, 255, 0, 0.6),
                 0 0 60px rgba(255, 255, 0, 0.4),
                 5px 5px 10px rgba(0, 0, 0, 0.5);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.2;
         }
         
         .emoji {
-            font-size: clamp(5rem, 20vw, 15rem);
+            font-size: clamp(3rem, 10vw, 8rem);
             display: block;
-            margin: 30px 0;
+            margin: 20px 0;
             animation: rotate 2s ease-in-out infinite;
         }
         
