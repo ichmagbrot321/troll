@@ -1,185 +1,996 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spaß! 😂</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Arial Black', Arial, sans-serif;
-            overflow: hidden;
-            animation: colorCycle 10s ease-in-out infinite;
-        }
-        
-        @keyframes colorCycle {
-            0% {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            }
-            20% {
-                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            }
-            40% {
-                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            }
-            60% {
-                background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            }
-            80% {
-                background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            }
-            100% {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            }
-        }
-        
-        .container {
-            text-align: center;
-            padding: 20px;
-            animation: bounce 1s ease-in-out infinite;
-        }
-        
-        h1 {
-            font-size: clamp(2rem, 8vw, 6rem);
-            color: #fff;
-            text-shadow: 
-                0 0 20px rgba(255, 255, 0, 0.8),
-                0 0 40px rgba(255, 255, 0, 0.6),
-                0 0 60px rgba(255, 255, 0, 0.4),
-                5px 5px 10px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        
-        .emoji {
-            font-size: clamp(3rem, 10vw, 8rem);
-            display: block;
-            margin: 20px 0;
-            animation: rotate 2s ease-in-out infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-        
-        @keyframes rotate {
-            0%, 100% {
-                transform: rotate(0deg);
-            }
-            25% {
-                transform: rotate(-15deg);
-            }
-            75% {
-                transform: rotate(15deg);
-            }
-        }
-        
-        .sparkle {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        
-        .star {
-            position: absolute;
-            background: white;
-            width: 3px;
-            height: 3px;
-            border-radius: 50%;
-            animation: twinkle 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes twinkle {
-            0%, 100% {
-                opacity: 0;
-                transform: scale(0);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="sparkle" id="sparkles"></div>
-    
-    <div class="container">
-        <h1>
-            SPASS!<br>
-            DAS WAR<br>
-            EIN TROLL<br>
-            DU DEPP
-        </h1>
-        <span class="emoji">😂</span>
-    </div>
-    
-    <div id="jumpscare" style="
-        position: fixed;
-        top: 0;
-        left: 0;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Köln RP VC</title>
+  <link rel="icon" href="https://i.postimg.cc/7b03QzPf/Screenshot-20250925-131956-Cap-Cut-1.jpg">
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0a0a0f 0%, #0d0d16 50%, #0a0a0f 100%);
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(0, 170, 255, 0.1) 0%, transparent 50%);
+      animation: moveBackground 15s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes moveBackground {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(50px, 50px); }
+    }
+
+    h1, h2, h3 {
+      color: #3b82f6;
+      text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+    }
+
+    /* Navigation */
+    header {
+      background: rgba(10, 14, 22, 0.95);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+      animation: slideDown 0.8s ease-out;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .navbar {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap;
+    }
+
+    .navbar a {
+      color: #fff;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 5px 0;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .navbar a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #3b82f6, #00aaff);
+      transition: width 0.3s ease;
+    }
+
+    .navbar a:hover::after {
+      width: 100%;
+    }
+
+    .navbar a:hover, .navbar a.active {
+      color: #3b82f6;
+      text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .unban-btn-top {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      padding: 10px 22px;
+      border-radius: 30px;
+      color: #fff;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4), 
+                  0 0 0 0 rgba(239, 68, 68, 0.5);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+      border: 2px solid rgba(239, 68, 68, 0.3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+      }
+      50% { 
+        transform: scale(1.05);
+        box-shadow: 0 6px 30px rgba(239, 68, 68, 0.6);
+      }
+    }
+
+    .unban-btn-top::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
+
+    .unban-btn-top::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.15) 50%,
+        transparent 70%
+      );
+      transform: rotate(45deg);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    .unban-btn-top:hover::before {
+      width: 400px;
+      height: 400px;
+    }
+
+    .unban-btn-top:hover {
+      transform: translateY(-3px) scale(1.08);
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.7),
+                  0 0 0 8px rgba(239, 68, 68, 0.1);
+      border-color: rgba(248, 113, 113, 0.6);
+      animation: none;
+    }
+
+    .unban-btn-top:active {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+    }
+
+    .admin-btn-top {
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+      padding: 10px 20px;
+      border-radius: 30px;
+      color: #fff;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+      border: 2px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .admin-btn-top:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.6);
+    }
+
+    .discord-btn-top {
+      background: linear-gradient(135deg, #5865F2, #4752C4);
+      padding: 10px 18px;
+      border-radius: 25px;
+      color: #fff;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .discord-btn-top:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(88, 101, 242, 0.5);
+    }
+
+    /* Page Container */
+    .page {
+      display: none;
+      min-height: 100vh;
+      padding-top: 90px;
+      position: relative;
+      z-index: 1;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .hero .logo {
+      width: 150px;
+      border-radius: 50%;
+      margin-bottom: 25px;
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
+      animation: floatLogo 3s ease-in-out infinite, pulseGlow 2s ease-in-out infinite;
+      transition: transform 0.3s ease;
+    }
+
+    .hero .logo:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+      50% { box-shadow: 0 0 50px rgba(59, 130, 246, 0.8), 0 0 80px rgba(59, 130, 246, 0.4); }
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+
+    .hero span {
+      background: linear-gradient(135deg, #3b82f6, #00aaff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      margin-top: 15px;
+      font-size: 1rem;
+      color: #ccc;
+      line-height: 1.6;
+      padding: 0 10px;
+    }
+
+    .discord-btn, .verify-btn {
+      display: inline-block;
+      margin: 15px 10px;
+      padding: 14px 35px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+    }
+
+    .discord-btn {
+      background: linear-gradient(135deg, #5865F2, #4752C4);
+      color: #fff;
+      box-shadow: 0 0 30px rgba(88, 101, 242, 0.4);
+    }
+
+    .verify-btn {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+    }
+
+    .discord-btn::before, .verify-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .discord-btn:hover::before, .verify-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .discord-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 0 50px rgba(88, 101, 242, 0.8);
+    }
+
+    .verify-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 0 50px rgba(16, 185, 129, 0.8);
+    }
+
+    .widget-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      padding: 0 10px;
+    }
+
+    iframe {
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      max-width: 100%;
+    }
+
+    iframe:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 60px rgba(59, 130, 246, 0.5);
+    }
+
+    /* Content Section */
+    .content-section {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .content-section h2 {
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+
+    /* News Grid */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .news-card {
+      background: linear-gradient(145deg, #101725, #0d0d16);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.2);
+      transition: all 0.4s ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 40px rgba(59, 130, 246, 0.5);
+    }
+
+    .news-card .badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: linear-gradient(135deg, #3b82f6, #00aaff);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+      z-index: 1;
+    }
+
+    .news-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .news-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .news-content {
+      padding: 20px;
+      text-align: left;
+    }
+
+    .news-content h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .news-content .date {
+      color: #888;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+
+    .news-content p {
+      color: #ccc;
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+
+    /* Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      transition: all 0.4s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(59, 130, 246, 0.5);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      padding: 15px;
+      transform: translateY(100%);
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      transform: translateY(0);
+    }
+
+    .gallery-overlay h4 {
+      color: #3b82f6;
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    .gallery-overlay p {
+      color: #ccc;
+      font-size: 0.85rem;
+    }
+
+    /* Team */
+    .team {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 25px;
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .member {
+      background: linear-gradient(145deg, #101725, #0d0d16);
+      border-radius: 20px;
+      padding: 20px 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.2);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .member::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+      transform: rotate(45deg);
+      transition: all 0.6s ease;
+    }
+
+    .member:hover::before {
+      left: 100%;
+    }
+
+    .member:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 40px rgba(59, 130, 246, 0.5);
+    }
+
+    .member img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #3b82f6;
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+      transition: all 0.4s ease;
+      margin-bottom: 12px;
+    }
+
+    .member:hover img {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+      border-color: #00aaff;
+    }
+
+    .member h3 {
+      margin-top: 8px;
+      font-size: 1rem;
+      margin-bottom: 5px;
+      text-align: center;
+      word-wrap: break-word;
+      max-width: 100%;
+    }
+
+    .member p {
+      color: #aaa;
+      font-size: 0.85rem;
+      font-weight: 300;
+      text-align: center;
+      word-wrap: break-word;
+      max-width: 100%;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      background: linear-gradient(180deg, transparent, rgba(8, 8, 12, 0.9));
+      color: #888;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(59, 130, 246, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    footer a {
+      color: #3b82f6;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #00aaff;
+      text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 15px;
+      }
+
+      .navbar ul {
+        gap: 10px;
+        font-size: 13px;
+      }
+
+      .navbar a {
+        font-size: 12px;
+      }
+
+      .header-buttons {
         width: 100%;
-        height: 100%;
-        background: #000;
-        display: none;
         justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    ">
-        <img src="https://i.imgur.com/xB8Qu3S.gif" alt="Jumpscare" style="width: 100%; height: 100%; object-fit: cover;">
+        margin-top: 8px;
+      }
+
+      .unban-btn-top, .admin-btn-top, .discord-btn-top {
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+
+      .page {
+        padding-top: 140px;
+      }
+
+      .hero {
+        padding: 30px 15px;
+      }
+
+      .hero .logo {
+        width: 120px;
+      }
+
+      .hero h1 {
+        font-size: 1.5rem;
+      }
+
+      .hero p {
+        font-size: 0.9rem;
+      }
+
+      .discord-btn, .verify-btn {
+        padding: 12px 28px;
+        font-size: 0.9rem;
+        display: block;
+        margin: 12px auto;
+        max-width: 280px;
+      }
+
+      .widget-container iframe {
+        width: 100%;
+        max-width: 350px;
+        height: 450px;
+      }
+
+      .content-section {
+        padding: 40px 15px;
+      }
+
+      .content-section h2 {
+        font-size: 1.6rem;
+        margin-bottom: 30px;
+      }
+
+      .news-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .team {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 15px;
+      }
+
+      .member {
+        padding: 15px 10px;
+      }
+
+      .member img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .member h3 {
+        font-size: 0.9rem;
+      }
+
+      .member p {
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Tablet Responsive */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      header {
+        padding: 12px 20px;
+      }
+
+      .navbar ul {
+        gap: 12px;
+      }
+
+      .page {
+        padding-top: 100px;
+      }
+
+      .hero .logo {
+        width: 140px;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .widget-container iframe {
+        width: 90%;
+        max-width: 400px;
+      }
+
+      .news-grid, .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .team {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .team {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar">
+      <ul>
+        <li><a onclick="showPage('home')" class="active">Start</a></li>
+        <li><a onclick="showPage('news')">Neuigkeiten</a></li>
+        <li><a onclick="showPage('events')">Events</a></li>
+        <li><a onclick="showPage('team')">Team</a></li>
+        <li><a href="commands.html">Commands</a></li>
+        <li><a href="regelwerk.html">Regelwerk</a></li>
+        <li><a href="impressum.html">Impressum</a></li>
+      </ul>
+    </nav>
+    <div class="header-buttons">
+      <a href="https://berlin-rp-vc.vercel.app/entbannungsantrag.html" target="_blank" class="unban-btn-top">📋 Entbannungsantrag</a>
+      <a href="admin.html" class="admin-btn-top">🔐 Admin</a>
+      <a href="https://discord.gg/JeBpr4sB4s" target="_blank" class="discord-btn-top">Discord</a>
     </div>
+  </header>
+
+  <!-- HOME PAGE -->
+  <div id="home" class="page active">
+    <section class="hero">
+      <img src="https://i.postimg.cc/7b03QzPf/Screenshot-20250925-131956-Cap-Cut-1.jpg" alt="Berlin RP VC Logo" class="logo">
+      <h1>Willkommen bei <span>Berlin RP VC</span></h1>
+      <p>Das neue Voice-Chat Roleplay-Erlebnis mit eigenem System und starkem Team.</p>
+
+      <a href="https://discord.gg/JeBpr4sB4s" target="_blank" class="discord-btn">
+        Discord beitreten
+      </a>
+
+      <div class="widget-container">
+        <iframe src="https://discord.com/widget?id=1421878115558232180&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"
+        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+      </div>
+    </section>
+    <footer>
+      <p>© 2025 Köln RP VC — Alle Rechte vorbehalten<br>Gruß Aizmen & Mathis 💙</p>
+      <p style="margin-top: 10px;"><a href="impressum.html">Impressum</a></p>
+    </footer>
+  </div>
+
+  <!-- NEWS PAGE -->
+  <div id="news" class="page">
+    <section class="content-section">
+      <h2>Neuigkeiten</h2>
+      <div class="news-grid" id="newsContainer"></div>
+    </section>
+    <footer>
+      <p>© 2025 Köln RP VC — Alle Rechte vorbehalten<br>Gruß Albaner & Ratte 💙</p>
+      <p style="margin-top: 10px;"><a href="impressum.html">Impressum</a></p>
+    </footer>
+  </div>
+
+  <!-- EVENTS PAGE -->
+  <div id="events" class="page">
+    <section class="content-section">
+      <h2>Event Galerie</h2>
+      <div class="gallery-grid" id="galleryContainer"></div>
+    </section>
+    <footer>
+      <p>© 2025 Berlin RP VC — Alle Rechte vorbehalten<br>Gruß Albaner & Ratte 💙</p>
+      <p style="margin-top: 10px;"><a href="impressum.html">Impressum</a></p>
+    </footer>
+  </div>
+
+  <!-- TEAM PAGE -->
+  <div id="team" class="page">
+    <section class="content-section">
+      <h2>Unser Team</h2>
+      <div class="team" id="teamContainer"></div>
+    </section>
+    <footer>
+      <p>© 2025 Berlin RP VC — Alle Rechte vorbehalten<br>Gruß Albaner & Ratte 💙</p>
+      <p style="margin-top: 10px;"><a href="impressum.html">Impressum</a></p>
+    </footer>
+  </div>
+
+  <script>
+    let newsItems = [];
+    let eventPhotos = [];
+    let teamMembers = [];
+
+    async function loadData() {
+      try {
+        const response = await fetch('data.json');
+        const data = await response.json();
+        
+        newsItems = data.news || [];
+        eventPhotos = data.events || [];
+        teamMembers = data.team || [];
+        
+        loadNews();
+        loadGallery();
+        loadTeam();
+      } catch (error) {
+        console.error('Fehler beim Laden der Daten:', error);
+        loadNews();
+        loadGallery();
+        loadTeam();
+      }
+    }
     
-    <audio id="screamSound" preload="auto">
-        <source src="https://www.myinstants.com/media/sounds/metal-pipe-falling.mp3" type="audio/mpeg">
-    </audio>
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => page.classList.remove('active'));
+      
+      document.getElementById(pageId).classList.add('active');
+      
+      const links = document.querySelectorAll('.navbar a');
+      links.forEach(link => link.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      window.scrollTo(0, 0);
+    }
     
-    <script>
-        // Funkelnde Sterne im Hintergrund
-        const sparkleContainer = document.getElementById('sparkles');
+    function loadNews() {
+      const container = document.getElementById('newsContainer');
+      container.innerHTML = '';
+      
+      const validNews = newsItems.filter(news => news.title && news.title.trim() !== '');
+      
+      validNews.forEach((news, index) => {
+        const newsCard = document.createElement('div');
+        newsCard.className = 'news-card';
+        newsCard.innerHTML = `
+          <div style="position: relative; overflow: hidden;">
+            <span class="badge">${news.badge || 'News'}</span>
+            <img src="${news.image || 'https://via.placeholder.com/300x200/3b82f6/ffffff?text=News'}" alt="${news.title}">
+          </div>
+          <div class="news-content">
+            <h3>${news.title}</h3>
+            <p class="date">${news.date || ''}</p>
+            <p>${news.description || ''}</p>
+          </div>
+        `;
+        container.appendChild(newsCard);
+      });
+    }
+    
+    function loadGallery() {
+      const container = document.getElementById('galleryContainer');
+      container.innerHTML = '';
+      
+      const validEvents = eventPhotos.filter(event => event.title && event.title.trim() !== '');
+      
+      validEvents.forEach((photo, index) => {
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        galleryItem.innerHTML = `
+          <img src="${photo.image || 'https://via.placeholder.com/300x250/3b82f6/ffffff?text=Event'}" alt="${photo.title}">
+          <div class="gallery-overlay">
+            <h4>${photo.title}</h4>
+            <p>${photo.description || ''}</p>
+          </div>
+        `;
+        container.appendChild(galleryItem);
+      });
+    }
+    
+    function loadTeam() {
+      const container = document.getElementById('teamContainer');
+      container.innerHTML = '';
+      
+      const roleOrder = [
+        '👑 Owner',
+        'Bruder von Owner Albaner',
+        '🛡️ Co-owner',
+        '🛡️ High Team',
+        '🇦🇱 Albaner',
+        '🫲 Rechte Hand Co.owner',
+        '🗓️ Event Verwaltung',
+        '🏛️ Fraktions Verwaltung',
+        '🔧 Head Admin',
+        '🔧 Senior Admin',
+        '🔧 Admin',
+        '🔧 Junior Admin',
+        '🔧 Probe Admin',
+        '🛡 Head Moderator',
+        '🛡 Senior Mod',
+        '🛡 Moderator',
+        '🛡 Junior Moderator',
+        'Server Start Erlaubnis',
+        '🛡 Probe Moderator',
+        '🎫 Senior Supporter',
+        '🎫 Supporter',
+        '🎫 Probe-Supporter'
+      ];
+      
+      const validMembers = teamMembers.filter(member => member.name && member.name.trim() !== '');
+      
+      const sortedMembers = [...validMembers].sort((a, b) => {
+        const indexA = roleOrder.indexOf(a.role);
+        const indexB = roleOrder.indexOf(b.role);
         
-        function createStar() {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 1.5 + 's';
-            sparkleContainer.appendChild(star);
-            
-            setTimeout(() => star.remove(), 3000);
-        }
+        if (indexA === -1 && indexB === -1) return 0;
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
         
-        setInterval(createStar, 200);
-        
-        // Jumpscare nach 5 Sekunden
-        setTimeout(() => {
-            const jumpscare = document.getElementById('jumpscare');
-            const scream = document.getElementById('screamSound');
-            
-            jumpscare.style.display = 'flex';
-            scream.play().catch(e => console.log('Audio play failed:', e));
-            
-            // Jumpscare nach 1.5 Sekunden wieder ausblenden
-            setTimeout(() => {
-                jumpscare.style.display = 'none';
-            }, 1500);
-        }, 5000);
-    </script>
+        return indexA - indexB;
+      });
+      
+      sortedMembers.forEach((member, index) => {
+        const memberDiv = document.createElement('div');
+        memberDiv.className = 'member';
+        memberDiv.innerHTML = `
+          <img src="${member.image || 'https://via.placeholder.com/120/3b82f6/ffffff?text=' + member.name.charAt(0)}" alt="${member.name} Profilbild">
+          <h3>${member.name}</h3>
+          <p>${member.role || ''}</p>
+        `;
+        container.appendChild(memberDiv);
+      });
+    }
+    
+    loadData();
+  </script>
 </body>
 </html>
