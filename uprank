@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spaß! 😂</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial Black', Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 20px;
+            animation: bounce 1s ease-in-out infinite;
+        }
+        
+        h1 {
+            font-size: clamp(3rem, 15vw, 12rem);
+            color: #fff;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 0, 0.8),
+                0 0 40px rgba(255, 255, 0, 0.6),
+                0 0 60px rgba(255, 255, 0, 0.4),
+                5px 5px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+        
+        .emoji {
+            font-size: clamp(5rem, 20vw, 15rem);
+            display: block;
+            margin: 30px 0;
+            animation: rotate 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes rotate {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(-15deg);
+            }
+            75% {
+                transform: rotate(15deg);
+            }
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            animation: twinkle 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkle" id="sparkles"></div>
+    
+    <div class="container">
+        <h1>
+            SPASS!<br>
+            DAS WAR<br>
+            EIN TROLL<br>
+            DU DEPP
+        </h1>
+        <span class="emoji">😂</span>
+    </div>
+    
+    <script>
+        // Funkelnde Sterne im Hintergrund
+        const sparkleContainer = document.getElementById('sparkles');
+        
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 1.5 + 's';
+            sparkleContainer.appendChild(star);
+            
+            setTimeout(() => star.remove(), 3000);
+        }
+        
+        setInterval(createStar, 200);
+    </script>
+</body>
+</html>
