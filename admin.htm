@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Köln RP VC - Admin Panel</title>
+  <link rel="icon" href="https://i.postimg.cc/7b03QzPf/Screenshot-20250925-131956-Cap-Cut-1.jpg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #0a0a0f 0%, #0d0d16 50%, #0a0a0f 100%); color: #fff; min-height: 100vh; padding: 20px; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+    h1, h2 { color: #3b82f6; text-shadow: 0 0 20px rgba(59, 130, 246, 0.5); margin-bottom: 30px; text-align: center; }
+    .login-container { max-width: 500px; margin: 100px auto; background: linear-gradient(145deg, #101725, #0d0d16); padding: 40px; border-radius: 20px; box-shadow: 0 0 50px rgba(59, 130, 246, 0.3); }
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .tab { padding: 12px 24px; border-radius: 10px; border: 2px solid rgba(59, 130, 246, 0.3); background: rgba(255, 255, 255, 0.05); color: white; cursor: pointer; transition: all 0.3s ease; font-weight: 500; }
+    .tab.active { background: linear-gradient(135deg, #3b82f6, #00aaff); border-color: #3b82f6; }
+    .tab:hover { transform: translateY(-2px); }
+    .section { display: none; }
+    .section.active { display: block; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; color: #3b82f6; font-weight: 500; }
+    input, textarea, select { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid rgba(59, 130, 246, 0.3); background: rgba(255, 255, 255, 0.05); color: white; font-size: 14px; font-family: 'Poppins', sans-serif; }
+    select option { background: #1a1a2e; color: white; padding: 10px; font-size: 14px; }
+    textarea { min-height: 100px; resize: vertical; }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+    .btn { padding: 12px 24px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 14px; }
+    .btn-primary { background: linear-gradient(135deg, #3b82f6, #00aaff); color: white; }
+    .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+    .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+    .btn-warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+    .btn-info { background: linear-gradient(135deg, #06b6d4, #0891b2); color: white; }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .item-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+    .item-card { background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 20px; border: 1px solid rgba(59, 130, 246, 0.2); position: relative; }
+    .item-card h3 { color: #3b82f6; margin-bottom: 10px; }
+    .item-card p { color: #ccc; margin-bottom: 5px; word-wrap: break-word; }
+    .item-actions { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+    .success-msg, .error-msg, .info-msg { padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; }
+    .success-msg { background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #6ee7b7; }
+    .error-msg { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #fca5a5; }
+    .info-msg { background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6; color: #93c5fd; }
+    .logout-btn { position: fixed; top: 30px; right: 30px; padding: 10px 20px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; z-index: 100; }
+    .logout-btn:hover { transform: translateY(-2px); }
+    .save-all-btn { position: fixed; bottom: 30px; right: 30px; padding: 15px 30px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4); transition: all 0.3s ease; font-size: 16px; z-index: 100; }
+    .save-all-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 6px 30px rgba(16, 185, 129, 0.6); }
+    .loading { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .user-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 10px; }
+    .badge-superadmin { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .badge-admin { background: linear-gradient(135deg, #3b82f6, #00aaff); }
+    .switch-mode { text-align: center; margin-top: 20px; color: #93c5fd; cursor: pointer; text-decoration: underline; font-size: 14px; }
+    .switch-mode:hover { color: #60a5fa; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 15px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+    .status-offen { background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid #fbbf24; }
+    .status-bearbeitet { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid #60a5fa; }
+    .status-genehmigt { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #4ade80; }
+    .status-abgelehnt { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #f87171; }
+    .unban-detail { background: rgba(0, 0, 0, 0.3); padding: 12px; border-radius: 8px; margin: 10px 0; }
+    .unban-detail strong { color: #3b82f6; display: block; margin-bottom: 5px; }
+    .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+    .filter-bar select { width: auto; min-width: 200px; }
+    .stats-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+    .stat-card { background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px; text-align: center; border: 1px solid rgba(59, 130, 246, 0.2); }
+    .stat-number { font-size: 2rem; font-weight: 700; color: #3b82f6; margin-bottom: 5px; }
+    .stat-label { color: #93c5fd; font-size: 0.9rem; }
+    @media (max-width: 768px) {
+      .logout-btn, .save-all-btn { position: static; margin: 10px auto; display: block; width: 90%; }
+      .container { padding: 20px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loginContainer" class="login-container">
+    <h1>Admin Login</h1>
+    <div id="loginError" class="error-msg" style="display: none;"></div>
+    
+    <div class="form-group">
+      <label>Benutzername</label>
+      <input type="text" id="username" placeholder="Dein Benutzername">
+    </div>
+    <div class="form-group">
+      <label>Passwort</label>
+      <input type="password" id="password" placeholder="Dein Passwort">
+    </div>
+    <button class="btn btn-primary" style="width: 100%;" onclick="normalLogin()">Einloggen</button>
+    <div class="switch-mode" onclick="showSuperAdminLogin()">🔧 Super-Admin Setup</div>
+  </div>
+
+  <div id="superAdminContainer" class="login-container" style="display: none;">
+    <h1>Super-Admin Setup</h1>
+    <div id="superAdminError" class="error-msg" style="display: none;"></div>
+    <div class="info-msg">
+      <strong>Wichtig:</strong><br>
+      1. Erstelle einen GitHub Token mit 'repo' Berechtigung<br>
+      2. Der Token wird nur lokal im Browser gespeichert<br>
+      3. Erstelle zuerst das System, dann kannst du normale Admin-Accounts anlegen
+    </div>
+    <div class="form-group">
+      <label>GitHub Username</label>
+      <input type="text" id="githubUser" placeholder="deinusername">
+    </div>
+    <div class="form-group">
+      <label>Repository Name</label>
+      <input type="text" id="githubRepo" placeholder="Köln-Rp-Vc">
+    </div>
+    <div class="form-group">
+      <label>GitHub Token (mit 'repo' Berechtigung)</label>
+      <input type="password" id="githubToken" placeholder="ghp_...">
+    </div>
+    <button class="btn btn-warning" style="width: 100%;" onclick="superAdminLogin()">System initialisieren</button>
+    <div class="switch-mode" onclick="showNormalLogin()">← Zurück zum normalen Login</div>
+  </div>
+
+  <div id="adminPanel" class="admin-panel">
+    <button class="logout-btn" onclick="logout()">Ausloggen</button>
+    <button class="save-all-btn" onclick="saveToGitHub()" id="saveBtn">💾 Auf GitHub speichern</button>
+    <div class="container">
+      <h1>Admin Panel <span id="userBadge"></span></h1>
+      <div id="statusMsg" style="display: none;"></div>
+      <div class="tabs">
+        <button class="tab active" onclick="showSection('news')">Neuigkeiten</button>
+        <button class="tab" onclick="showSection('events')">Events</button>
+        <button class="tab" onclick="showSection('team')">Team</button>
+        <button class="tab" onclick="showSection('unbans')">📋 Entbannungsanträge</button>
+        <button class="tab" id="usersTab" onclick="showSectionIfSuperAdmin('users')" style="display: none;">👥 Benutzer</button>
+      </div>
+
+      <div id="news-section" class="section active">
+        <h2>Neuigkeiten verwalten</h2>
+        <div class="form-group"><label>Titel</label><input type="text" id="news-title" placeholder="z.B. Neues Update"></div>
+        <div class="form-group"><label>Datum</label><input type="text" id="news-date" placeholder="z.B. 20. Oktober 2025"></div>
+        <div class="form-group"><label>Badge</label><input type="text" id="news-badge" placeholder="z.B. Wichtig"></div>
+        <div class="form-group"><label>Beschreibung</label><textarea id="news-description" placeholder="Text..."></textarea></div>
+        <div class="form-group"><label>Bild URL</label><input type="text" id="news-image" placeholder="https://..."></div>
+        <button class="btn btn-success" onclick="addNews()">+ Hinzufügen</button>
+        <div id="news-list" class="item-list"></div>
+      </div>
+
+      <div id="events-section" class="section">
+        <h2>Events verwalten</h2>
+        <div class="form-group"><label>Titel</label><input type="text" id="event-title" placeholder="z.B. Halloween Event"></div>
+        <div class="form-group"><label>Beschreibung</label><textarea id="event-description" placeholder="Text..."></textarea></div>
+        <div class="form-group"><label>Bild URL</label><input type="text" id="event-image" placeholder="https://..."></div>
+        <button class="btn btn-success" onclick="addEvent()">+ Hinzufügen</button>
+        <div id="events-list" class="item-list"></div>
+      </div>
+
+      <div id="team-section" class="section">
+        <h2>Team verwalten</h2>
+        <div class="form-group"><label>Name</label><input type="text" id="team-name" placeholder="z.B. Max"></div>
+        <div class="form-group">
+          <label>Rolle</label>
+          <select id="team-role">
+            <option value="">-- Rolle auswählen --</option>
+            <option value="👑 Owner">Owner (👑)</option>
+            <option value="Bruder von Owner Albaner">Bruder von Owner Albaner</option>
+            <option value="🛡️ Co-owner">Co-owner (🛡️)</option>
+            <option value="🛡️ High Team">High Team (🛡️)</option>
+            <option value="🇦🇱 Albaner">Albaner (🇦🇱)</option>
+            <option value="🫲 Rechte Hand Co.owner">Rechte Hand Co.owner (🫲)</option>
+            <option value="🗓️ Event Verwaltung">Event Verwaltung (🗓️)</option>
+            <option value="🏛️ Fraktions Verwaltung">Fraktions Verwaltung (🏛️)</option>
+            <option value="🔧 Head Admin">Head Admin (🔧)</option>
+            <option value="🔧 Senior Admin">Senior Admin (🔧)</option>
+            <option value="🔧 Admin">Admin (🔧)</option>
+            <option value="🔧 Junior Admin">Junior Admin (🔧)</option>
+            <option value="🔧 Probe Admin">Probe Admin (🔧)</option>
+            <option value="🛡 Head Moderator">Head Moderator (🛡)</option>
+            <option value="🛡 Senior Mod">Senior Mod (🛡)</option>
+            <option value="🛡 Moderator">Moderator (🛡)</option>
+            <option value="🛡 Junior Moderator">Junior Moderator (🛡)</option>
+            <option value="Server Start Erlaubnis">Server Start Erlaubnis</option>
+            <option value="🛡 Probe Moderator">Probe Moderator (🛡)</option>
+            <option value="🎫 Senior Supporter">Senior Supporter (🎫)</option>
+            <option value="🎫 Supporter">Supporter (🎫)</option>
+            <option value="🎫 Probe-Supporter">Probe-Supporter (🎫)</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Bild URL</label><input type="text" id="team-image" placeholder="https://..."></div>
+        <button class="btn btn-success" onclick="addTeamMember()">+ Hinzufügen</button>
+        <div id="team-list" class="item-list"></div>
+      </div>
+
+      <div id="unbans-section" class="section">
+        <h2>📋 Entbannungsanträge verwalten</h2>
+        <div class="stats-container" id="unban-stats"></div>
+        <div class="filter-bar">
+          <select id="unban-filter" onchange="renderUnbans()">
+            <option value="all">Alle Anträge</option>
+            <option value="offen">Offen</option>
+            <option value="bearbeitet">In Bearbeitung</option>
+            <option value="genehmigt">Genehmigt</option>
+            <option value="abgelehnt">Abgelehnt</option>
+          </select>
+          <button class="btn btn-info" onclick="loadUnbansFromGitHub()">🔄 Aktualisieren</button>
+        </div>
+        <div id="unbans-list" class="item-list"></div>
+      </div>
+
+      <div id="users-section" class="section">
+        <h2>👥 Benutzer verwalten</h2>
+        <div class="info-msg">
+          <strong>Hinweis:</strong> Normale Admins können sich nur einloggen, wenn du hier Accounts für sie erstellst.
+        </div>
+        <div class="form-group"><label>Benutzername</label><input type="text" id="new-username" placeholder="z.B. moderator1"></div>
+        <div class="form-group"><label>Passwort</label><input type="password" id="new-password" placeholder="Sicheres Passwort"></div>
+        <button class="btn btn-success" onclick="addUser()">+ Benutzer hinzufügen</button>
+        <div id="users-list" class="item-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ⚠️ WARNUNG: Token ist hardcoded - NICHT SICHER! ⚠️
+    const HARDCODED_TOKEN = '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';
+    const HARDCODED_USER = 'ichmagbrot321'; // ← HIER DEINEN GITHUB USERNAME EINTRAGEN
+    const HARDCODED_REPO = 'Köln-Rp-Vc';
+    
+    let githubConfig = { 
+      user: HARDCODED_USER, 
+      repo: HARDCODED_REPO, 
+      token: HARDCODED_TOKEN, 
+      branch: 'main' 
+    };
+    let data = { news: [], events: [], team: [] };
+    let users = { admins: [] };
+    let unbanRequests = [];
+    let currentSha = null, usersSha = null, unbansSha = null;
+    let currentUser = null, isSuperAdmin = false;
+
+    // Beim Laden automatisch GitHub Config setzen
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log('Admin Panel geladen - Token ist hardcoded');
+      
+      // Automatisch Config in LocalStorage speichern falls nicht vorhanden
+      const stored = localStorage.getItem('github_repo_info');
+      if (!stored) {
+        localStorage.setItem('github_repo_info', JSON.stringify({
+          user: HARDCODED_USER,
+          repo: HARDCODED_REPO,
+          token: HARDCODED_TOKEN,
+          branch: 'main'
+        }));
+        console.log('✅ GitHub Config automatisch gesetzt');
+      }
+    });
+
+    function utf8ToBase64(str) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(str);
+      let binary = '';
+      for (let i = 0; i < data.length; i++) {
+        binary += String.fromCharCode(data[i]);
+      }
+      return btoa(binary);
+    }
+
+    function base64ToUtf8(str) {
+      const binary = atob(str);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      const decoder = new TextDecoder();
+      return decoder.decode(bytes);
+    }
+
+    function showSuperAdminLogin() {
+      document.getElementById('loginContainer').style.display = 'none';
+      document.getElementById('superAdminContainer').style.display = 'block';
+    }
+
+    function showNormalLogin() {
+      document.getElementById('superAdminContainer').style.display = 'none';
+      document.getElementById('loginContainer').style.display = 'block';
+    }
+
+    async function hashPassword(password) {
+      const msgBuffer = new TextEncoder().encode(password);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function getStoredGitHubConfig() {
+      const stored = localStorage.getItem('github_repo_info');
+      if (stored) {
+        try { 
+          const config = JSON.parse(stored);
+          // Prüfen ob alle benötigten Felder vorhanden sind
+          if (config.user && config.repo && config.token) {
+            return config;
+          }
+        } catch (e) { 
+          console.error('Fehler beim Laden der Config:', e);
+        }
+      }
+      return null;
+    }
+
+    async function normalLogin() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      
+      if (!username || !password) { 
+        showError('Bitte fülle alle Felder aus!', 'loginError'); 
+        return; 
+      }
+      
+      // GitHub Config IMMER automatisch setzen
+      githubConfig.user = HARDCODED_USER;
+      githubConfig.repo = HARDCODED_REPO;
+      githubConfig.token = HARDCODED_TOKEN;
+      githubConfig.branch = 'main';
+      
+      // Config auch im LocalStorage speichern
+      localStorage.setItem('github_repo_info', JSON.stringify({
+        user: HARDCODED_USER,
+        repo: HARDCODED_REPO,
+        token: HARDCODED_TOKEN,
+        branch: 'main'
+      }));
+      
+      console.log('✅ GitHub Config gesetzt:', { user: githubConfig.user, repo: githubConfig.repo });
+      
+      try {
+        // Users von GitHub laden
+        await loadUsersFromGitHub();
+        
+        if (!users || !users.admins || users.admins.length === 0) {
+          showError('Keine Benutzer vorhanden! Bitte logge dich als Super-Admin ein und erstelle Benutzer.', 'loginError');
+          return;
+        }
+        
+        // Passwort prüfen
+        const passwordHash = await hashPassword(password);
+        const user = users.admins.find(u => u.username === username && u.passwordHash === passwordHash);
+        
+        if (!user) { 
+          showError('Falscher Benutzername oder Passwort!', 'loginError'); 
+          return; 
+        }
+        
+        currentUser = username;
+        isSuperAdmin = false;
+        
+        // Daten laden
+        await loadDataFromGitHub();
+        await loadUnbansFromGitHub();
+        
+        // UI anzeigen
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('adminPanel').classList.add('active');
+        document.getElementById('usersTab').style.display = 'none';
+        document.getElementById('userBadge').innerHTML = `<span class="user-badge badge-admin">${username}</span>`;
+        
+        renderAll();
+        showSuccess('✅ Erfolgreich eingeloggt als ' + username);
+      } catch (error) { 
+        console.error('Login Fehler:', error);
+        showError('Fehler beim Login: ' + error.message, 'loginError'); 
+      }
+    }
+
+    async function superAdminLogin() {
+      const user = document.getElementById('githubUser').value.trim();
+      const repo = document.getElementById('githubRepo').value.trim();
+      // Token aus Eingabefeld wird ignoriert, da hardcoded
+      
+      if (!user || !repo) { 
+        showError('Bitte fülle GitHub Username und Repository aus!', 'superAdminError'); 
+        return; 
+      }
+      
+      githubConfig.user = user;
+      githubConfig.repo = repo;
+      githubConfig.token = HARDCODED_TOKEN; // Hardcoded Token verwenden
+      githubConfig.branch = 'main';
+      
+      console.log('🔧 Super-Admin Setup:', { user, repo });
+      
+      try {
+        // GitHub Config speichern (ohne Token, da hardcoded)
+        localStorage.setItem('github_repo_info', JSON.stringify({ 
+          user: user, 
+          repo: repo, 
+          token: HARDCODED_TOKEN, // Token trotzdem speichern für Kompatibilität
+          branch: 'main'
+        }));
+        
+        console.log('✅ GitHub Config gespeichert');
+        
+        // Users laden oder erstellen
+        try {
+          await loadUsersFromGitHub();
+          console.log('✅ users.json geladen');
+        } catch (e) {
+          console.log('📝 users.json erstellen...');
+          users = { admins: [] };
+          await saveUsersToGitHub();
+          console.log('✅ users.json erstellt');
+        }
+        
+        // Data laden oder erstellen
+        try {
+          await loadDataFromGitHub();
+          console.log('✅ data.json geladen');
+        } catch (e) {
+          console.log('📝 data.json erstellen...');
+          data = { news: [], events: [], team: [] };
+          await saveToGitHub();
+          console.log('✅ data.json erstellt');
+        }
+        
+        // Unbans laden (optional)
+        try {
+          await loadUnbansFromGitHub();
+          console.log('✅ unbans.json geladen');
+        } catch (e) {
+          console.log('ℹ️ unbans.json wird bei Bedarf erstellt');
+          unbanRequests = [];
+        }
+        
+        currentUser = 'Super-Admin';
+        isSuperAdmin = true;
+        
+        document.getElementById('superAdminContainer').style.display = 'none';
+        document.getElementById('adminPanel').classList.add('active');
+        document.getElementById('userBadge').innerHTML = '<span class="user-badge badge-superadmin">Super-Admin</span>';
+        document.getElementById('usersTab').style.display = 'block';
+        
+        renderAll();
+        renderUsers();
+        showSuccess('✅ Super-Admin Zugriff gewährt! System erfolgreich initialisiert.');
+      } catch (error) { 
+        showError('Fehler beim Setup: ' + error.message + ' - Prüfe deine GitHub Zugangsdaten!', 'superAdminError'); 
+        console.error('Super-Admin Setup Fehler:', error);
+      }
+    }
+
+    function logout() {
+      if (confirm('Wirklich ausloggen? Ungespeicherte Änderungen gehen verloren!')) {
+        document.getElementById('loginContainer').style.display = 'block';
+        document.getElementById('adminPanel').classList.remove('active');
+        document.getElementById('usersTab').style.display = 'none';
+        githubConfig = { user: '', repo: '', token: '', branch: 'main' };
+        data = { news: [], events: [], team: [] };
+        unbanRequests = [];
+        currentUser = null;
+        isSuperAdmin = false;
+      }
+    }
+
+    async function loadUnbansFromGitHub() {
+      try {
+        const url = `https://api.github.com/repos/${githubConfig.user}/${githubConfig.repo}/contents/unbans.json`;
+        const response = await fetch(url, {
+          headers: { 
+            'Authorization': `token ${githubConfig.token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        
+        if (response.status === 404) {
+          unbanRequests = [];
+          renderUnbans();
+          renderUnbanStats();
+          return;
+        }
+        
+        if (!response.ok) {
+          throw new Error('Fehler beim Laden der unbans.json');
+        }
+        
+        const fileData = await response.json();
+        unbansSha = fileData.sha;
+        const content = base64ToUtf8(fileData.content);
+        unbanRequests = JSON.parse(content);
+        
+        unbanRequests.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        
+        renderUnbans();
+        renderUnbanStats();
+      } catch (error) {
+        console.error('Fehler beim Laden der Entbannungsanträge:', error);
+        unbanRequests = [];
+        renderUnbans();
+        renderUnbanStats();
+      }
+    }
+
+    function renderUnbanStats() {
+      const stats = {
+        total: unbanRequests.length,
+        offen: unbanRequests.filter(u => u.status === 'offen').length,
+        bearbeitet: unbanRequests.filter(u => u.status === 'bearbeitet').length,
+        genehmigt: unbanRequests.filter(u => u.status === 'genehmigt').length,
+        abgelehnt: unbanRequests.filter(u => u.status === 'abgelehnt').length
+      };
+      document.getElementById('unban-stats').innerHTML = `
+        <div class="stat-card"><div class="stat-number">${stats.total}</div><div class="stat-label">Gesamt</div></div>
+        <div class="stat-card"><div class="stat-number">${stats.offen}</div><div class="stat-label">Offen</div></div>
+        <div class="stat-card"><div class="stat-number">${stats.bearbeitet}</div><div class="stat-label">In Bearbeitung</div></div>
+        <div class="stat-card"><div class="stat-number">${stats.genehmigt}</div><div class="stat-label">Genehmigt</div></div>
+        <div class="stat-card"><div class="stat-number">${stats.abgelehnt}</div><div class="stat-label">Abgelehnt</div></div>
+      `;
+    }
+
+    function renderUnbans() {
+      const filter = document.getElementById('unban-filter').value;
+      let filtered = unbanRequests;
+      if (filter !== 'all') {
+        filtered = unbanRequests.filter(u => u.status === filter);
+      }
+      const container = document.getElementById('unbans-list');
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="info-msg">Keine Entbannungsanträge vorhanden.</div>';
+        return;
+      }
+      container.innerHTML = filtered.map((req, index) => {
+        const originalIndex = unbanRequests.indexOf(req);
+        const date = new Date(req.timestamp).toLocaleString('de-DE');
+        return `
+          <div class="item-card">
+            <h3>${req.discordName} <span class="status-badge status-${req.status}">${req.status}</span></h3>
+            <p><strong>Antrags-ID:</strong> ${req.id}</p>
+            <p><strong>Eingereicht am:</strong> ${date}</p>
+            <div class="unban-detail">
+              <strong>Discord ID:</strong>
+              <p>${req.discordId}</p>
+            </div>
+            <div class="unban-detail">
+              <strong>Roblox Name:</strong>
+              <p>${req.robloxName} (ID: ${req.robloxId})</p>
+            </div>
+            <div class="unban-detail">
+              <strong>Ban Case ID:</strong>
+              <p>${req.caseId}</p>
+            </div>
+            <div class="unban-detail">
+              <strong>Grund des Banns:</strong>
+              <p>${req.reason}</p>
+            </div>
+            <div class="unban-detail">
+              <strong>War es ein Fehler?</strong>
+              <p>${req.mistake}</p>
+            </div>
+            <div class="unban-detail">
+              <strong>Würde es wieder tun?</strong>
+              <p>${req.again}</p>
+            </div>
+            <div class="unban-detail">
+              <strong>Reue:</strong>
+              <p>${req.sorry}</p>
+            </div>
+            <div class="unban-detail">
+              <strong>E-Mail:</strong>
+              <p>${req.email}</p>
+            </div>
+            <div class="item-actions">
+              <button class="btn btn-warning" onclick="changeUnbanStatus(${originalIndex}, 'bearbeitet')">📝 In Bearbeitung</button>
+              <button class="btn btn-success" onclick="changeUnbanStatus(${originalIndex}, 'genehmigt')">✅ Genehmigen</button>
+              <button class="btn btn-danger" onclick="changeUnbanStatus(${originalIndex}, 'abgelehnt')">❌ Ablehnen</button>
+              <button class="btn btn-danger" onclick="deleteUnban(${originalIndex})">🗑️ Löschen</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function changeUnbanStatus(index, newStatus) {
+      try {
+        const req = unbanRequests[index];
+        req.status = newStatus;
+        req.processedBy = currentUser;
+        req.processedAt = new Date().toISOString();
+        
+        await saveUnbansToGitHub();
+        showSuccess(`✅ Status geändert zu: ${newStatus}`);
+        renderUnbans();
+        renderUnbanStats();
+      } catch (error) {
+        showError('❌ Fehler beim Ändern des Status: ' + error.message);
+      }
+    }
+
+    async function deleteUnban(index) {
+      if (!confirm('Wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden!')) return;
+      try {
+        unbanRequests.splice(index, 1);
+        await saveUnbansToGitHub();
+        showSuccess('✅ Entbannungsantrag gelöscht!');
+        renderUnbans();
+        renderUnbanStats();
+      } catch (error) {
+        showError('❌ Fehler beim Löschen: ' + error.message);
+      }
+    }
+
+    async function saveUnbansToGitHub() {
+      const url = `https://api.github.com/repos/${githubConfig.user}/${githubConfig.repo}/contents/unbans.json`;
+      const content = utf8ToBase64(JSON.stringify(unbanRequests, null, 2));
+      const body = {
+        message: 'Update unbans.json via Admin Panel',
+        content: content,
+        branch: githubConfig.branch
+      };
+      if (unbansSha) body.sha = unbansSha;
+      
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${githubConfig.token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+      
+      if (!response.ok) throw new Error('Konnte unbans.json nicht speichern!');
+      const result = await response.json();
+      unbansSha = result.content.sha;
+    }
+
+    async function loadUsersFromGitHub() {
+      const url = `https://api.github.com/repos/${githubConfig.user}/${githubConfig.repo}/contents/users.json`;
+      const response = await fetch(url, {
+        headers: { 
+          'Authorization': `token ${githubConfig.token}`, 
+          'Accept': 'application/vnd.github.v3+json' 
+        }
+      });
+      
+      if (response.status === 404) {
+        users = { admins: [] };
+        throw new Error('users.json existiert nicht');
+      }
+      
+      if (!response.ok) {
+        throw new Error('Fehler beim Laden der users.json');
+      }
+      
+      const fileData = await response.json();
+      usersSha = fileData.sha;
+      const content = base64ToUtf8(fileData.content);
+      users = JSON.parse(content);
+    }
+
+    async function saveUsersToGitHub() {
+      const url = `https://api.github.com/repos/${githubConfig.user}/${githubConfig.repo}/contents/users.json`;
+      const usersToSave = { 
+        admins: users.admins.map(u => ({ 
+          username: u.username, 
+          passwordHash: u.passwordHash, 
+          createdAt: u.createdAt 
+        })) 
+      };
+      const content = utf8ToBase64(JSON.stringify(usersToSave, null, 2));
+      const body = { 
+        message: 'Update users.json', 
+        content: content, 
+        branch: githubConfig.branch 
+      };
+      if (usersSha) body.sha = usersSha;
+      
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: { 
+          'Authorization': `token ${githubConfig.token}`, 
+          'Accept': 'application/vnd.github.v3+json', 
+          'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(body)
+      });
+      
+      if (!response.ok) throw new Error('Konnte users.json nicht speichern!');
+      const result = await response.json();
+      usersSha = result.content.sha;
+    }
+
+    async function loadDataFromGitHub() {
+      const url = `https://api.github.com/repos/${githubConfig.user}/${githubConfig.repo}/contents/data.json`;
+      const response = await fetch(url, {
+        headers: { 
+          'Authorization': `token ${githubConfig.token}`, 
+          'Accept': 'application/vnd.github.v3+json' 
+        }
+      });
+      
+      if (response.status === 404) {
+        data = { news: [], events: [], team: [] };
+        throw new Error('data.json existiert nicht');
+      }
+      
+      if (!response.ok) throw new Error('Konnte data.json nicht laden!');
+      const fileData = await response.json();
+      currentSha = fileData.sha;
+      const content = base64ToUtf8(fileData.content);
+      data = JSON.parse(content);
+    }
+
+    async function saveToGitHub() {
+      const btn = document.getElementById('saveBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading"></span> Speichere...';
+      try {
+        const dataUrl = `https://api.github.com/repos/${githubConfig.user}/${githubConfig.repo}/contents/data.json`;
+        const dataContent = utf8ToBase64(JSON.stringify(data, null, 2));
+        const body = { 
+          message: 'Update data.json via Admin Panel', 
+          content: dataContent, 
+          branch: githubConfig.branch 
+        };
+        if (currentSha) body.sha = currentSha;
+        
+        const dataResponse = await fetch(dataUrl, {
+          method: 'PUT',
+          headers: { 
+            'Authorization': `token ${githubConfig.token}`, 
+            'Accept': 'application/vnd.github.v3+json', 
+            'Content-Type': 'application/json' 
+          },
+          body: JSON.stringify(body)
+        });
+        
+        if (!dataResponse.ok) throw new Error('Konnte data.json nicht speichern!');
+        const dataResult = await dataResponse.json();
+        currentSha = dataResult.content.sha;
+        showSuccess('✅ Erfolgreich auf GitHub gespeichert!');
+      } catch (error) {
+        showError('❌ Fehler beim Speichern: ' + error.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '💾 Auf GitHub speichern';
+      }
+    }
+
+    function showSection(sectionName) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(`${sectionName}-section`).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function showSectionIfSuperAdmin(sectionName) {
+      if (!isSuperAdmin) { alert('Nur für Super-Admins!'); return; }
+      showSection(sectionName);
+    }
+
+    function addNews() {
+      const news = {
+        title: document.getElementById('news-title').value,
+        date: document.getElementById('news-date').value,
+        badge: document.getElementById('news-badge').value,
+        description: document.getElementById('news-description').value,
+        image: document.getElementById('news-image').value
+      };
+      if (!news.title || !news.date) { alert('Bitte fülle mindestens Titel und Datum aus!'); return; }
+      data.news.push(news);
+      document.getElementById('news-title').value = '';
+      document.getElementById('news-date').value = '';
+      document.getElementById('news-badge').value = '';
+      document.getElementById('news-description').value = '';
+      document.getElementById('news-image').value = '';
+      showInfo('✏️ Hinzugefügt! Klicke "Auf GitHub speichern" um zu speichern.');
+      renderNews();
+    }
+
+    function addEvent() {
+      const event = {
+        title: document.getElementById('event-title').value,
+        description: document.getElementById('event-description').value,
+        image: document.getElementById('event-image').value
+      };
+      if (!event.title) { alert('Bitte fülle mindestens den Titel aus!'); return; }
+      data.events.push(event);
+      document.getElementById('event-title').value = '';
+      document.getElementById('event-description').value = '';
+      document.getElementById('event-image').value = '';
+      showInfo('✏️ Hinzugefügt! Klicke "Auf GitHub speichern" um zu speichern.');
+      renderEvents();
+    }
+
+    function addTeamMember() {
+      const name = document.getElementById('team-name').value.trim();
+      const role = document.getElementById('team-role').value;
+      const image = document.getElementById('team-image').value.trim();
+      if (!name || !role) { alert('Bitte fülle Name und Rolle aus!'); return; }
+      const member = { name: name, role: role, image: image };
+      data.team.push(member);
+      document.getElementById('team-name').value = '';
+      document.getElementById('team-role').value = '';
+      document.getElementById('team-image').value = '';
+      showInfo('✏️ Hinzugefügt! Klicke "Auf GitHub speichern" um zu speichern.');
+      renderTeam();
+    }
+
+    async function addUser() {
+      if (!isSuperAdmin) { alert('Nur Super-Admins können Benutzer hinzufügen!'); return; }
+      const username = document.getElementById('new-username').value.trim();
+      const password = document.getElementById('new-password').value.trim();
+      if (!username || !password) { alert('Bitte fülle alle Felder aus!'); return; }
+      if (users.admins.find(u => u.username === username)) { alert('Benutzername existiert bereits!'); return; }
+      const passwordHash = await hashPassword(password);
+      users.admins.push({ 
+        username: username, 
+        passwordHash: passwordHash, 
+        createdAt: new Date().toISOString() 
+      });
+      await saveUsersToGitHub();
+      document.getElementById('new-username').value = '';
+      document.getElementById('new-password').value = '';
+      showSuccess('✅ Benutzer wurde hinzugefügt!');
+      renderUsers();
+    }
+
+    async function deleteUser(index) {
+      if (!isSuperAdmin) { alert('Nur Super-Admins können Benutzer löschen!'); return; }
+      if (confirm('Wirklich löschen?')) {
+        users.admins.splice(index, 1);
+        await saveUsersToGitHub();
+        showSuccess('✅ Benutzer gelöscht!');
+        renderUsers();
+      }
+    }
+
+    function deleteNews(index) {
+      if (confirm('Wirklich löschen?')) {
+        data.news.splice(index, 1);
+        showInfo('✏️ Gelöscht! Klicke "Auf GitHub speichern" um zu speichern.');
+        renderNews();
+      }
+    }
+
+    function deleteEvent(index) {
+      if (confirm('Wirklich löschen?')) {
+        data.events.splice(index, 1);
+        showInfo('✏️ Gelöscht! Klicke "Auf GitHub speichern" um zu speichern.');
+        renderEvents();
+      }
+    }
+
+    function deleteTeamMember(index) {
+      if (confirm('Wirklich löschen?')) {
+        data.team.splice(index, 1);
+        showInfo('✏️ Gelöscht! Klicke "Auf GitHub speichern" um zu speichern.');
+        renderTeam();
+      }
+    }
+
+    function renderNews() {
+      const container = document.getElementById('news-list');
+      container.innerHTML = data.news.map((item, i) => `
+        <div class="item-card">
+          <h3>${item.title}</h3>
+          <p><strong>Datum:</strong> ${item.date}</p>
+          <p><strong>Badge:</strong> ${item.badge}</p>
+          <p>${item.description}</p>
+          ${item.image ? `<p><strong>Bild:</strong> ${item.image}</p>` : ''}
+          <div class="item-actions"><button class="btn btn-danger" onclick="deleteNews(${i})">Löschen</button></div>
+        </div>
+      `).join('');
+    }
+
+    function renderEvents() {
+      const container = document.getElementById('events-list');
+      container.innerHTML = data.events.map((item, i) => `
+        <div class="item-card">
+          <h3>${item.title}</h3>
+          <p>${item.description}</p>
+          ${item.image ? `<p><strong>Bild:</strong> ${item.image}</p>` : ''}
+          <div class="item-actions"><button class="btn btn-danger" onclick="deleteEvent(${i})">Löschen</button></div>
+        </div>
+      `).join('');
+    }
+
+    function renderTeam() {
+      const roleOrder = ['👑 Owner','Bruder von Owner Albaner','🛡️ Co-owner','🛡️ High Team','🇦🇱 Albaner','🫲 Rechte Hand Co.owner','🗓️ Event Verwaltung','🏛️ Fraktions Verwaltung','🔧 Head Admin','🔧 Senior Admin','🔧 Admin','🔧 Junior Admin','🔧 Probe Admin','🛡 Head Moderator','🛡 Senior Mod','🛡 Moderator','🛡 Junior Moderator','Server Start Erlaubnis','🛡 Probe Moderator','🎫 Senior Supporter','🎫 Supporter','🎫 Probe-Supporter'];
+      const sortedTeam = [...data.team].sort((a, b) => {
+        const indexA = roleOrder.indexOf(a.role);
+        const indexB = roleOrder.indexOf(b.role);
+        if (indexA === -1 && indexB === -1) return 0;
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+        return indexA - indexB;
+      });
+      const container = document.getElementById('team-list');
+      container.innerHTML = sortedTeam.map((item) => {
+        const originalIndex = data.team.indexOf(item);
+        return `<div class="item-card"><h3>${item.name}</h3><p><strong>Rolle:</strong> ${item.role}</p>${item.image ? `<p><strong>Bild:</strong> ${item.image}</p>` : ''}<div class="item-actions"><button class="btn btn-danger" onclick="deleteTeamMember(${originalIndex})">Löschen</button></div></div>`;
+      }).join('');
+    }
+
+    function renderUsers() {
+      if (!isSuperAdmin) return;
+      const container = document.getElementById('users-list');
+      container.innerHTML = users.admins.map((user, i) => `
+        <div class="item-card">
+          <h3>👤 ${user.username}</h3>
+          <p><strong>Erstellt am:</strong> ${new Date(user.createdAt).toLocaleString('de-DE')}</p>
+          <div class="item-actions"><button class="btn btn-danger" onclick="deleteUser(${i})">Löschen</button></div>
+        </div>
+      `).join('');
+    }
+
+    function renderAll() {
+      renderNews();
+      renderEvents();
+      renderTeam();
+      renderUnbans();
+      renderUnbanStats();
+      if (isSuperAdmin) renderUsers();
+    }
+
+    function showSuccess(msg) {
+      const el = document.getElementById('statusMsg');
+      el.className = 'success-msg';
+      el.textContent = msg;
+      el.style.display = 'block';
+      setTimeout(() => el.style.display = 'none', 5000);
+    }
+
+    function showError(msg, id = 'statusMsg') {
+      const el = document.getElementById(id);
+      el.className = 'error-msg';
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    function showInfo(msg) {
+      const el = document.getElementById('statusMsg');
+      el.className = 'info-msg';
+      el.textContent = msg;
+      el.style.display = 'block';
+      setTimeout(() => el.style.display = 'none', 3000);
+    }
+  </script>
+</body>
+</html>
