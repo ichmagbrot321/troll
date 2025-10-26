@@ -131,6 +131,25 @@
         <span class="emoji">😂</span>
     </div>
     
+    <div id="jumpscare" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    ">
+        <img src="https://i.imgur.com/xB8Qu3S.gif" alt="Jumpscare" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+    
+    <audio id="screamSound" preload="auto">
+        <source src="https://www.myinstants.com/media/sounds/metal-pipe-falling.mp3" type="audio/mpeg">
+    </audio>
+    
     <script>
         // Funkelnde Sterne im Hintergrund
         const sparkleContainer = document.getElementById('sparkles');
@@ -147,6 +166,20 @@
         }
         
         setInterval(createStar, 200);
+        
+        // Jumpscare nach 5 Sekunden
+        setTimeout(() => {
+            const jumpscare = document.getElementById('jumpscare');
+            const scream = document.getElementById('screamSound');
+            
+            jumpscare.style.display = 'flex';
+            scream.play().catch(e => console.log('Audio play failed:', e));
+            
+            // Jumpscare nach 1.5 Sekunden wieder ausblenden
+            setTimeout(() => {
+                jumpscare.style.display = 'none';
+            }, 1500);
+        }, 5000);
     </script>
 </body>
 </html>
